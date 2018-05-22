@@ -1,5 +1,5 @@
 //18.05.2018 by michal-2
-const fs = require('fs');
+const config = require('../config');
 const glob = require('glob');
 const {resolve, getLoaders} = require('./utils');
 const webpack = require('webpack');
@@ -23,7 +23,7 @@ module.exports = {
     ]
   },
   output: {
-    publicPath: '/',
+    publicPath: config.publicPath,
     path: resolve('dist'),
     filename: '[name].js',
   },

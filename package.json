@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "node build/server.js",
-    "dll": "rimraf dist/* && webpack --progress --config build/webpack.dll.conf.js"
+    "dll": "rimraf dist/* && webpack --progress --config build/webpack.dll.conf.js",
+    "pre": "webpack --progress --config build/webpack.dev.conf.js"
   },
   "author": "",
   "license": "ISC",
