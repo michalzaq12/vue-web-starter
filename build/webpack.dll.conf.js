@@ -2,7 +2,7 @@
  * Created by michal-2 on 07.03.2018.
  */
 
-const config = require('../config');
+
 const {resolve, getLoaders, getLoaders2} = require('./utils');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -34,7 +34,6 @@ module.exports = {
   },
   output: {
     filename: '[name].[hash].dll.js',
-    publicPath: config.publicPath,
     path: resolve('dist'),
     library: '[name]_[hash]'
   },
