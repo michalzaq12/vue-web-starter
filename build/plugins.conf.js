@@ -11,9 +11,13 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 let plugins = {
   friendly: new FriendlyErrorsPlugin(),
 
+  define: new webpack.DefinePlugin({
+    IS_DEV: process.env.WEBPACK === 'dev' ? JSON.stringify(true) : JSON.stringify(false)
+  }),
+
   hot__dev: new webpack.HotModuleReplacementPlugin(),
 
-  html__dll$: new HtmlWebpackPlugin({
+  html: new HtmlWebpackPlugin({
     template: resolve('index.html'),
     filename: resolve('dist/index.html'),
     inject: true,
@@ -25,18 +29,14 @@ let plugins = {
     compress: {
       warnings: false
     },
-    sourceMap: true
+    sourceMap: false
   }),
 
   extractCSS__dev$: new ExtractTextPlugin({
     filename: 'css/[name].[contenthash].css'
   }),
 
-  dllPlugin__dll: new webpack.DllPlugin({
-    name: '[name]_[hash]',
-    path: './dist/[name]-manifest.json'
-  }),
-  dllReference__dll$: new webpack.DllReferencePlugin({
+  dllReference: new webpack.DllReferencePlugin({
     context: process.cwd(),
     manifest: getManifest()
   })

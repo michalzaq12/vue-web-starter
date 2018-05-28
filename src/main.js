@@ -16,8 +16,8 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 Vue.use(Vuetify);
 
-Vue.config.productionTip = true;
-Vue.config.debug = true;
+Vue.config.productionTip = IS_DEV;
+Vue.config.debug = IS_DEV;
 
 ApiService.init();
 

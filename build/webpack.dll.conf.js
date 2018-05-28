@@ -4,7 +4,8 @@
 const config = require('../config');
 const {resolve} = require('./utils');
 const loaders = require('./loaders.conf');
-const plugins = require('./plugins.conf');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 module.exports = {
@@ -28,5 +29,21 @@ module.exports = {
   module: {
     rules: loaders
   },
-  plugins: plugins
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+      sourceMap: true
+    }),
+
+    new ExtractTextPlugin({
+      filename: 'css/[name].[contenthash].css'
+    }),
+
+    new webpack.DllPlugin({
+      name: '[name]_[hash]',
+      path: './dist/[name]-manifest.json'
+    }),
+  ]
 };

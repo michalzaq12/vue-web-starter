@@ -8,8 +8,9 @@
   },
   "scripts": {
     "dev": "cross-env WEBPACK=dev node build/server.js",
-    "dll": "rimraf dist/* && cross-env WEBPACK=dll webpack --progress --config build/webpack.dll.conf.js",
-    "prod": "cross-env WEBPACK=prod webpack --progress --config build/webpack.conf.js"
+    "dll": "rimraf dist/* && webpack --progress --config build/webpack.dll.conf.js",
+    "build": "cross-env webpack --progress --config build/webpack.conf.js",
+    "gh": "cross-env-shell WEBPACK=gh_pages \"npm run dll && npm run build\""
   },
   "author": "",
   "license": "ISC",

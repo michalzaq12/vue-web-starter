@@ -57,7 +57,7 @@ let loaders = [
       test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
       loader: 'url-loader',
       options: {
-        publicPath__dll: '../',
+        publicPath: '../',
         limit: 10000,
         name: 'fonts/[name].[hash:7].[ext]'
       }
