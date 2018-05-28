@@ -1,15 +1,23 @@
 const path = require('path');
+const glob = require('glob');
 
-module.exports = {
+
+//TODO: refactor
+let utils = {
   resolve: (filePath) => {
     return path.join(__dirname, '..', filePath);
   },
-  getLoaders: (loaders) => {
-    return Object.keys(loaders).map(function (key) {
-      return loaders[key];
-    })
+  getAssets: () => {
+    let assets = glob.sync(utils.resolve('dist/**/*.{css,woff,woff2,ttf,eot}'));
+    return assets.map(file => file.replace(/.*dist\//, ''));
+  },
+  getManifest: () => {
+    return process.env.WEBPACK !== 'dll' ? require(utils.resolve('dist/library-manifest.json')) : '';
+  },
+  getLibraryPath: () => {
+      let manifest = utils.getManifest();
+      return manifest === '' ? '' : manifest.name.replace('_', '.') + '.dll.js'
   }
 };
 
-
-
+module.exports = utils;

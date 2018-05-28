@@ -3,9 +3,10 @@ const config = require('../config');
 const path = require('path');
 const express = require('express');
 const webpack = require('webpack');
-const webpackConfig = require('./webpack.dev.conf');
+const webpackConfig = require('./webpack.conf');
 
 const port = config.port;
+process.env.BABEL_ENV = 'dev';
 
 const app = express();
 const compiler = webpack(webpackConfig);

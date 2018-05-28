@@ -1,59 +1,67 @@
 const {resolve} = require('./utils');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const monfy = require('monfy');
 
-module.exports = {
-  css:
+
+let loaders = [
     {
       test: /\.css$/,
-      use: ['style-loader', 'css-loader?sourceMap']
+      use__dev: ['style-loader', 'css-loader?sourceMap'],
+      use: ExtractTextPlugin.extract({
+        fallback: "style-loader",
+        use: ["css-loader?sourceMap"]
+      })
     },
-  scss:
     {
       test: /\.scss$/,
+      exclude: resolve('node_modules'),
       use: [
         'vue-style-loader',
         'css-loader?sourceMap',
         'sass-loader?sourceMap'
       ]
     },
-  vue:
     {
       test: /\.vue$/,
       loader: 'vue-loader?sourceMap',
-      include: [resolve('src')],
+      include: [resolve('src/components'), resolve('src/App'), resolve('src/views'), resolve('src/modules')],
     },
-  js:
     {
       test: /\.js$/,
-      loader: ['babel-loader', 'webpack-module-hot-accept'],
-      exclude: resolve('node_modules')
+      loader__dev: ['babel-loader?cacheDirectory', 'webpack-module-hot-accept'],
+      loader: ['babel-loader'],
+      // exclude: resolve('node_modules'),
+      include: resolve('src')
     },
-  img:
     {
       test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
       loader: 'url-loader',
-      exclude: resolve('node_modules'),
+      // exclude: resolve('node_modules'),
+      include: resolve('src/assets/img'),
       options: {
         limit: 10000,
         name: 'img/[name].[hash:7].[ext]'
       }
     },
-  media:
     {
       test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
       loader: 'url-loader',
-      exclude: resolve('node_modules'),
+      // exclude: resolve('node_modules'),
+      include: resolve('src/assets'),
       options: {
         limit: 10000,
         name: 'media/[name].[hash:7].[ext]'
       }
     },
-  font:
     {
       test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
       loader: 'url-loader',
       options: {
+        publicPath__dll: '../',
         limit: 10000,
         name: 'fonts/[name].[hash:7].[ext]'
       }
     }
-};
+];
+
+module.exports = monfy(loaders, process.env.WEBPACK);

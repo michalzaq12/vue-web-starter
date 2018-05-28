@@ -1,6 +1,9 @@
+const monfy = require('monfy');
 
-
-module.exports = {
+let config = {
   port: 3333,
-  publicPath: '/vue-web-starter'
+  publicPath: '/',
+  publicPath__gh_pages: '/vue-web-starter'
 };
+
+module.exports = monfy(config, process.env.WEBPACK);
