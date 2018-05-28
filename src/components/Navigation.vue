@@ -1,6 +1,6 @@
 <template>
-
-    <v-navigation-drawer v-model="drawer" v-resize="onResize" :mini-variant.sync="mini" permanent absolute app>
+<div>
+    <v-navigation-drawer class="hidden-xs-only" v-model="drawer" v-resize="onResize" :mini-variant.sync="mini" permanent absolute app>
       <v-toolbar flat class="transparent">
         <v-list class="pa-0">
           <v-list-tile avatar>
@@ -13,6 +13,7 @@
           </v-list-tile>
         </v-list>
       </v-toolbar>
+
       <v-list class="pt-0" dense>
         <v-divider></v-divider>
         <v-list-tile v-for="item in items" :key="item.title" @click="routeTo(item)">
@@ -26,6 +27,13 @@
       </v-list>
     </v-navigation-drawer>
 
+  <v-bottom-nav :value="true" :active.sync="highlighted" absolute color="transparent" class="hidden-sm-and-up">
+    <v-btn v-for="item in items" :key="item.title" @click="routeTo(item)" flat color="blue-grey" :value="item.title">
+      <span>{{ item.title }}</span>
+      <v-icon>{{ item.icon }}</v-icon>
+    </v-btn>
+  </v-bottom-nav>
+</div>
 </template>
 
 <script>
@@ -38,7 +46,8 @@
           { title: 'About', icon: 'question_answer', routeTo: 'about' }
         ],
         right: null,
-        mini: false
+        mini: false,
+        highlighted: 'Home'
       }
     },
     methods:{

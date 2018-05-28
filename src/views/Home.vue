@@ -23,7 +23,7 @@
     <v-pagination :length="Math.ceil(postsCount / itemsPerPage)"
                   :total-visible="visiblePagesCount"
                   v-model="currentPage"
-                  :class="{'ma-0': $vuetify.breakpoint.smAndDown, 'ma-4': $vuetify.breakpoint.mdAndUp}"
+                  :class="{'ma-0': $vuetify.breakpoint.xsOnly, 'ma-4': $vuetify.breakpoint.smAndUp}"
                   color="blue-grey lighten-1"
                   circle
     >
@@ -77,11 +77,15 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
   $sm: 960px;
+  $xs: 600px;
   .container{
     height: calc(100vh - 150px);
     overflow-y: scroll;
     @media only screen and (max-width: $sm) {
-      height: calc(100vh - 80px);
+      height: calc(100vh - 130px);
+    }
+    @media only screen and (max-width: $xs) {
+      height: calc(100vh - 105px);
     }
   }
 </style>
