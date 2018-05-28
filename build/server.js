@@ -30,7 +30,6 @@ compiler.plugin('compilation', function (compilation) {
 
 
 app.use(hotMiddleware);
-app.use(require('connect-history-api-fallback')());
 app.use(devMiddleware);
 
 app.use('/', express.static(path.join(__dirname, '..', 'dist')));
