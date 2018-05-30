@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="_content">
 
-    <div v-if="isLoading" class="loader"></div>
+    <div v-if="isLoading" class="loader hidden-xs-only"></div>
 
 
-    <v-list class="container" three-line>
+    <v-list id="container" class="container" three-line v-resize="onResize" :class="{'pa-1': $vuetify.breakpoint.xsOnly}">
       <template v-for="(post, index) in postPerPage">
         <v-divider v-if="index != 0" :inset="true" :key="index"></v-divider>
         <v-list-tile>
@@ -21,14 +21,18 @@
 
 
     <v-pagination :length="Math.ceil(postsCount / itemsPerPage)"
-                  :total-visible="visiblePagesCount"
+                  :total-visible="7"
                   v-model="currentPage"
                   :class="{'ma-0': $vuetify.breakpoint.xsOnly, 'ma-4': $vuetify.breakpoint.smAndUp}"
                   color="blue-grey lighten-1"
                   circle
+                  class="hidden-xs-only"
     >
 
     </v-pagination>
+
+    <v-progress-circular v-if="loaderOnMobile" indeterminate color="blue-grey" class="hidden-sm-and-up mt-3"></v-progress-circular>
+
   </div>
 </template>
 
@@ -40,28 +44,49 @@
         data () {
           return {
             currentPage: 1,
-            itemsPerPage: 10
+            itemsPerPage: 20,
+            loadAfterScroll: false,
+            loaderOnMobile: true
           }
         },
         computed: {
-          ...mapGetters([getter.POST_PER_PAGE, getter.IS_LOADING, getter.POSTS_COUNT]),
-          visiblePagesCount() {
-            switch (this.$vuetify.breakpoint.name) {
-              case 'xs':
-                return 5;
-              default:
-                return 7;
-            }
-          }
+          ...mapGetters([getter.POST_PER_PAGE, getter.IS_LOADING, getter.POSTS_COUNT])
         },
         methods:{
           fetchPosts(){
             this.$store.dispatch(action.FETCH_POSTS);
+          },
+          onResize(){
+            if(window.innerWidth < 600){
+              if(this.loadAfterScroll) return;
+              window.addEventListener('scroll', this.onScroll);
+              this.currentPage = 1;
+              return this.loadAfterScroll = true;
+            }
+            if(!this.loadAfterScroll) return;
+            window.removeEventListener('scroll', this.onScroll);
+            this.loadAfterScroll = false;
+            this.itemsPerPage = 10;
+          },
+          onScroll(e){
+            const EPS = -105;
+            let y = (window.pageYOffset || document.documentElement.scrollTop) + window.innerHeight;
+            let contentHeight = document.querySelector('#container').scrollHeight;
+            if(y + EPS > contentHeight) {
+              if(this.$store.getters[getter.POSTS_COUNT] <= this.itemsPerPage){
+                this.loaderOnMobile = false;
+                return;
+              }
+              this.itemsPerPage += 10;
+            }
           }
         },
         watch: {
           currentPage(newValue){
             this.$store.commit(mutation.SET_PAGE, newValue);
+          },
+          itemsPerPage(newValue){
+            this.$store.commit(mutation.SET_ITEMS_PER_PAGE, newValue);
           }
         },
         mounted(){
@@ -85,7 +110,14 @@
       height: calc(100vh - 130px);
     }
     @media only screen and (max-width: $xs) {
-      height: calc(100vh - 105px);
+      height: 100%;
+      overflow: hidden;
+    }
+  }
+
+  ._content{
+    @media only screen and (max-width: $xs) {
+      margin-bottom: 100px;
     }
   }
 </style>

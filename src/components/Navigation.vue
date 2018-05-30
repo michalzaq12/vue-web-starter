@@ -27,7 +27,7 @@
       </v-list>
     </v-navigation-drawer>
 
-  <v-bottom-nav :value="true" :active.sync="highlighted" absolute color="transparent" class="hidden-sm-and-up">
+  <v-bottom-nav :value="true" :active.sync="highlighted" fixed class="hidden-sm-and-up" color="grey lighten-3">
     <v-btn v-for="item in items" :key="item.title" @click="routeTo(item)" flat color="blue-grey" :value="item.title">
       <span>{{ item.title }}</span>
       <v-icon>{{ item.icon }}</v-icon>

@@ -30,9 +30,12 @@
 
 </script>
 
-<style>
+<style lang="scss">
   html{
     overflow: hidden;
+    @media only screen and (max-width: 600px) {
+      overflow-y: scroll;
+    }
   }
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
