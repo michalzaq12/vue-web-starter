@@ -1,4 +1,3 @@
-# An exemplary SPA with Vue.js 
 
 
 <p align="center">
@@ -13,7 +12,7 @@
   <a href="https://webpack.js.org" target="_blank">
     <img width="100" src="https://webpack.js.org/assets/icon-square-big.svg" alt="Webpack logo">
   </a>
-  <br><br><strong>vue-web-starter</strong> is a basic Vue.js starter <br>which uses Vue 2, Vuetify and Webpack 3.
+  <br><br><i><strong>vue-web-starter</strong> is a basic Vue.js starter <br>which uses Vue 2, Vuetify and Webpack 3.</i>
 </p>
 
 <p align="center"></p>
@@ -23,7 +22,8 @@
 ### [Live demo - michalzaq12.github.io/vue-web-starter/](https://michalzaq12.github.io/vue-web-starter/)
 
 
-##Quick start
+
+## Quick start
 
   ```bash
   # install dependencies
