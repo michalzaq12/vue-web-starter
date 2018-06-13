@@ -7,9 +7,10 @@
     "test": "test"
   },
   "scripts": {
-    "dev": "cross-env WEBPACK=dev node build/server.js",
-    "dll": "rimraf dist/* && webpack --progress --config build/webpack.dll.conf.js",
-    "build": "cross-env webpack --progress --config build/webpack.conf.js",
+    "clean": "node build/bin/clean.js",
+    "dev": "cross-env WEBPACK=dev node build/bin/server.js",
+    "dll": "npm run clean && webpack --progress --config build/webpack.dll.conf.js",
+    "build": "webpack --progress --config build/webpack.conf.js",
     "gh": "cross-env-shell WEBPACK=gh_pages \"npm run dll && npm run build\""
   },
   "author": "",
@@ -35,7 +36,6 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
     "friendly-errors-webpack-plugin": "^1.7.0",
-    "glob": "latest",
     "html-webpack-plugin": "^3.2.0",
     "monfy": "^0.1.1",
     "node-sass": "^4.5.3",

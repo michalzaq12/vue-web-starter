@@ -1,14 +1,12 @@
-//18.05.2018 by michal-2
-const config = require('../config');
-const path = require('path');
+const config = require('../../config');
 const express = require('express');
 const webpack = require('webpack');
-const webpackConfig = require('./webpack.conf');
+const webpackConfig = require('../webpack.conf');
 
-const port = config.port;
+
 process.env.BABEL_ENV = 'dev';
 
-const app = express();
+
 const compiler = webpack(webpackConfig);
 
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
@@ -28,23 +26,18 @@ compiler.plugin('compilation', function (compilation) {
   })
 });
 
-
+const app = express();
+app.use('/', express.static(config.build.path));
 app.use(hotMiddleware);
 app.use(devMiddleware);
 
-app.use('/', express.static(path.join(__dirname, '..', 'dist')));
 
-const uri = 'http://localhost:' + port;
 
 console.log('> Starting dev server...');
 devMiddleware.waitUntilValid(() => {
-  console.log('> Listening at ' + uri + '\n')
+  const PORT = config.port;
+  app.listen(PORT, () => {
+    console.log(`> Listening at http://localhost:${PORT} \n`)
+  });
 });
 
-const server = app.listen(port);
-
-module.exports = {
-  close: () => {
-    server.close()
-  }
-};

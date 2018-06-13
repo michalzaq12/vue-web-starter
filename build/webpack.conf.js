@@ -11,8 +11,8 @@ let webpackConfig = {
     main__dev: ['webpack-hot-middleware/client?reload=true', resolve('src/main.js')],
   },
   output: {
-    publicPath: config.publicPath,
-    path: resolve('dist'),
+    publicPath: config.build.publicPath,
+    path: config.build.path,
     filename: '[name].js',
   },
   resolveLoader: {

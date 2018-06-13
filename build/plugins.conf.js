@@ -1,11 +1,11 @@
-const {resolve, getAssets, getManifest, getLibraryPath} = require('./utils');
-const {monfy, monfyToArray} = require('monfy');
+const {monfyToArray} = require('monfy');
 const webpack = require('webpack');
+const {requireIfExists, resolve, HTML_INDEX_PATH, CHUNK_LIST_PATH, LIBRARY_MANIFEST_PATH} = require('./utils');
+
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-
 
 
 let plugins = {
@@ -19,10 +19,9 @@ let plugins = {
 
   html: new HtmlWebpackPlugin({
     template: resolve('index.html'),
-    filename: resolve('dist/index.html'),
+    filename: HTML_INDEX_PATH,
     inject: true,
-    dll: getLibraryPath(),
-    assets: getAssets()
+    assets: requireIfExists(CHUNK_LIST_PATH)
   }),
 
   minify__dev$: new webpack.optimize.UglifyJsPlugin({
@@ -38,7 +37,7 @@ let plugins = {
 
   dllReference: new webpack.DllReferencePlugin({
     context: process.cwd(),
-    manifest: getManifest()
+    manifest: requireIfExists(LIBRARY_MANIFEST_PATH)
   })
 };
 

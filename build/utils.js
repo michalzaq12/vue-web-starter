@@ -1,23 +1,31 @@
+const config = require('../config');
 const path = require('path');
-const glob = require('glob');
+const fs = require('fs');
+
+const ROOT_DIR = path.join(__dirname, '..');
+const OUTPUT_DIR = config.build.path;
 
 
-//TODO: refactor
-let utils = {
-  resolve: (filePath) => {
-    return path.join(__dirname, '..', filePath);
-  },
-  getAssets: () => {
-    let assets = glob.sync(utils.resolve('dist/**/*.{css,woff,woff2,ttf,eot}'));
-    return assets.map(file => file.replace(/.*dist\//, ''));
-  },
-  getManifest: () => {
-    return process.env.WEBPACK !== 'dll' ? require(utils.resolve('dist/library-manifest.json')) : '';
-  },
-  getLibraryPath: () => {
-      let manifest = utils.getManifest();
-      return manifest === '' ? '' : manifest.name.replace('_', '.') + '.dll.js'
-  }
+function resolveToRoot(file) {
+  return path.join(ROOT_DIR, file);
+}
+
+function resolveToOutput(file) {
+  return path.join(OUTPUT_DIR, file);
+}
+
+
+function requireIfExists(file) {
+  if (!fs.existsSync(file)) return {}; //null?
+  return require(file);
+}
+
+module.exports = {
+  HTML_INDEX_PATH: resolveToOutput('index.html'),
+  CHUNK_LIST_PATH: resolveToOutput('chunk-list.json'),
+  LIBRARY_MANIFEST_PATH: resolveToOutput('library-manifest.json'),
+
+  resolve: resolveToRoot,
+  requireIfExists,
 };
 
-module.exports = utils;

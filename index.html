@@ -9,12 +9,14 @@
 
   <% for(let file of htmlWebpackPlugin.options.assets){ %>
     <% if(file.match(/\.css$/)) { %>
-    <link href="<%= htmlWebpackPlugin.files.publicPath + file %>" rel="stylesheet">
+      <link href="<%= htmlWebpackPlugin.files.publicPath + file %>" rel="stylesheet">
+    <% } else if(file.match(/\.js$/)) {%>
+      <script src="<%= htmlWebpackPlugin.files.publicPath + file %>"></script>
     <% } else {%>
-    <link rel="prefetch" href="<%= htmlWebpackPlugin.files.publicPath + file %>">
+      <link rel="prefetch" href="<%= htmlWebpackPlugin.files.publicPath + file %>">
   <% }}%>
 
-  <script src="<%= htmlWebpackPlugin.files.publicPath + htmlWebpackPlugin.options.dll %>"></script>
+
 
   <style>
     .loader {

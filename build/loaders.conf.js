@@ -1,5 +1,5 @@
-const {resolve} = require('./utils');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const {resolve} = require('./utils');
 const monfy = require('monfy');
 
 

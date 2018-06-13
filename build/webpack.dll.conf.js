@@ -2,11 +2,13 @@
  * Created by michal-2 on 07.03.2018.
  */
 const config = require('../config');
-const {resolve} = require('./utils');
+const {resolve, CHUNK_LIST_PATH, LIBRARY_MANIFEST_PATH} = require('./utils');
+
 const loaders = require('./loaders.conf');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const WebpackChunkListPlugin = require('./WebpackChunkListPlugin');
 
 module.exports = {
   context: process.cwd(),
@@ -22,8 +24,8 @@ module.exports = {
   },
   output: {
     filename: '[name].[hash].dll.js',
-    publicPath: config.publicPath,
-    path: resolve('dist'),
+    publicPath: config.build.publicPath,
+    path: config.build.path,
     library: '[name]_[hash]'
   },
   module: {
@@ -43,7 +45,11 @@ module.exports = {
 
     new webpack.DllPlugin({
       name: '[name]_[hash]',
-      path: './dist/[name]-manifest.json'
+      path: LIBRARY_MANIFEST_PATH
     }),
+
+    new WebpackChunkListPlugin({
+      path: CHUNK_LIST_PATH
+    })
   ]
 };
