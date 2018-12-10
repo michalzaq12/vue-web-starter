@@ -1,10 +1,12 @@
 <template>
   <div class="_content">
 
-    <div v-if="isLoading" class="loader hidden-xs-only"></div>
-
-
     <v-list id="container" class="container" three-line v-resize="onResize" :class="{'pa-1': $vuetify.breakpoint.xsOnly}">
+
+      <v-layout v-if="isLoading" align-center justify-center fill-height>
+        <v-progress-circular  indeterminate color="blue-grey" />
+      </v-layout>
+
       <template v-for="(post, index) in postPerPage">
         <v-divider v-if="index != 0" :inset="true" :key="index"></v-divider>
         <v-list-tile>
@@ -19,19 +21,20 @@
       </template>
     </v-list>
 
+    <div class="text-xs-center">
+      <v-pagination :length="Math.ceil(postsCount / itemsPerPage)"
+                    :total-visible="7"
+                    v-model="currentPage"
+                    :class="{'ma-0': $vuetify.breakpoint.xsOnly, 'ma-4': $vuetify.breakpoint.smAndUp}"
+                    color="blue-grey lighten-1"
+                    circle
+                    class="hidden-xs-only"
+      />
+      <v-progress-circular v-if="loaderOnMobile" indeterminate color="blue-grey" class="hidden-sm-and-up mt-3" />
+    </div>
 
-    <v-pagination :length="Math.ceil(postsCount / itemsPerPage)"
-                  :total-visible="7"
-                  v-model="currentPage"
-                  :class="{'ma-0': $vuetify.breakpoint.xsOnly, 'ma-4': $vuetify.breakpoint.smAndUp}"
-                  color="blue-grey lighten-1"
-                  circle
-                  class="hidden-xs-only"
-    >
 
-    </v-pagination>
 
-    <v-progress-circular v-if="loaderOnMobile" indeterminate color="blue-grey" class="hidden-sm-and-up mt-3"></v-progress-circular>
 
   </div>
 </template>
@@ -95,14 +98,15 @@
         beforeMount(){
           this.$store.commit(mutation.SET_PAGE, this.currentPage);
           this.$store.commit(mutation.SET_ITEMS_PER_PAGE, this.itemsPerPage);
+        },
+        beforeDestroy(){
+          window.removeEventListener('scroll', this.onScroll);
         }
     }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style lang="scss" scoped>
-  $sm: 960px;
-  $xs: 600px;
   .container{
     height: calc(100vh - 150px);
     overflow-y: scroll;
