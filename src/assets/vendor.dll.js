@@ -1,6 +1,5 @@
 require('vue');
 require('vue-router');
-require('vue-axios');
 require('axios');
 require('vuex');
 require('vuetify');
