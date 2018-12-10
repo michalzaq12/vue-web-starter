@@ -1,6 +1,7 @@
 const {monfyToArray} = require('monfy');
 const webpack = require('webpack');
-const {requireIfExists, resolve, HTML_INDEX_PATH, CHUNK_LIST_PATH, LIBRARY_MANIFEST_PATH} = require('./utils');
+const {requireIfExists, resolve, requireOrThrow,
+  HTML_INDEX_PATH, CHUNK_LIST_PATH, LIBRARY_MANIFEST_PATH} = require('./utils');
 
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -21,7 +22,7 @@ let plugins = {
     template: resolve('index.html'),
     filename: HTML_INDEX_PATH,
     inject: true,
-    assets: requireIfExists(CHUNK_LIST_PATH)
+    assets: requireIfExists(CHUNK_LIST_PATH, [])
   }),
 
   minify__dev$: new webpack.optimize.UglifyJsPlugin({
@@ -37,7 +38,7 @@ let plugins = {
 
   dllReference: new webpack.DllReferencePlugin({
     context: process.cwd(),
-    manifest: requireIfExists(LIBRARY_MANIFEST_PATH)
+    manifest: requireOrThrow(LIBRARY_MANIFEST_PATH, '[Dll plugin]: Build first vendor libraries')
   })
 };
 

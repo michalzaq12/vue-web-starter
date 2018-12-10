@@ -15,10 +15,16 @@ function resolveToOutput(file) {
 }
 
 
-function requireIfExists(file) {
-  if (!fs.existsSync(file)) return {}; //null?
+function requireIfExists(file, defaultValue) {
+  if (!fs.existsSync(file)) return defaultValue;
   return require(file);
 }
+
+function requireOrThrow(file, message) {
+  if (!fs.existsSync(file)) throw new Error(message);
+  return require(file);
+}
+
 
 module.exports = {
   HTML_INDEX_PATH: resolveToOutput('index.html'),
@@ -27,5 +33,6 @@ module.exports = {
 
   resolve: resolveToRoot,
   requireIfExists,
+  requireOrThrow
 };
 
