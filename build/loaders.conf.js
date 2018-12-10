@@ -1,7 +1,7 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const {resolve} = require('./utils');
 const monfy = require('monfy');
-
+const config = require('../config');
 
 let loaders = [
     {
@@ -24,7 +24,13 @@ let loaders = [
     {
       test: /\.vue$/,
       loader: 'vue-loader?sourceMap',
-      include: [resolve('src/components'), resolve('src/App'), resolve('src/views'), resolve('src/modules')],
+      include: [resolve('src')],
+      options: {
+        loaders: {
+          sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1&data=@import "./src/global"',
+          scss: 'vue-style-loader!css-loader!sass-loader?data=@import "./src/global";'
+        }
+      }
     },
     {
       test: /\.js$/,
@@ -39,6 +45,7 @@ let loaders = [
       // exclude: resolve('node_modules'),
       include: resolve('src/assets/img'),
       options: {
+        publicPath: config.build.publicPath,
         limit: 10000,
         name: 'img/[name].[hash:7].[ext]'
       }
@@ -49,6 +56,7 @@ let loaders = [
       // exclude: resolve('node_modules'),
       include: resolve('src/assets'),
       options: {
+        publicPath: config.build.publicPath,
         limit: 10000,
         name: 'media/[name].[hash:7].[ext]'
       }
