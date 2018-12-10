@@ -1,5 +1,4 @@
 <template>
-<div class="app">
   <v-app>
     <navigation></navigation>
 
@@ -15,12 +14,9 @@
       <span class="mr-3">&copy; 2018</span>
     </v-footer>
   </v-app>
-
-</div>
 </template>
 
 <script>
-  import '@/assets/reset.css';
   import Home from '@/views/Home';
   import Navigation from '@/components/Navigation';
   export default {
@@ -36,11 +32,5 @@
     @media only screen and (max-width: 600px) {
       overflow-y: scroll;
     }
-  }
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
   }
 </style>
