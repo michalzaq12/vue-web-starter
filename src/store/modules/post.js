@@ -30,7 +30,7 @@ const getters = {
 const actions = {
   [action.FETCH_POSTS]({ commit }) {
     commit(mutation.FETCH_START);
-    return postService.query().then((posts) => {
+    return postService.get().then((posts) => {
       commit(mutation.FETCH_END, posts.data);
     })
   }
@@ -44,6 +44,7 @@ function randomAvatarColor(){
 
 const mutations = {
   [mutation.FETCH_START](state) {
+    state.posts = [];
     state.isLoading = true
   },
   [mutation.FETCH_END](state, posts){
